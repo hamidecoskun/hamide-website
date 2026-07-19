@@ -76,6 +76,7 @@
       items.forEach(function (el) { obs.observe(el); });
 
       var glow = document.getElementById('heroGlow');
+      var lens = document.getElementById('heroLens');
       var heroSection = document.querySelector('.hero-plain');
       if (glow && heroSection) {
         var ticking = false;
@@ -85,8 +86,13 @@
           requestAnimationFrame(function () {
             var rect = heroSection.getBoundingClientRect();
             if (rect.bottom > 0 && rect.top < window.innerHeight) {
-              var offset = (rect.top || 0) * 0.12;
-              glow.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
+              var top = rect.top || 0;
+              glow.style.transform = 'translateY(' + (top * 0.12).toFixed(1) + 'px)';
+              if (lens) {
+                lens.style.transform = 'translateY(' + (top * 0.05).toFixed(1) + 'px)';
+                var progress = Math.min(Math.max(-top / 260, 0), 1);
+                lens.style.opacity = (progress * 0.4).toFixed(2);
+              }
             }
             ticking = false;
           });
