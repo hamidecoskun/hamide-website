@@ -84,9 +84,9 @@
   .hero-plain { position: relative; padding: clamp(64px, 11vw, 128px) 0 clamp(56px, 8vw, 96px); overflow: hidden; }
 
   .hero-glow {
-    position: absolute; top: -14%; right: -10%; width: 1050px; height: 800px; z-index: 0; pointer-events: none;
-    background: radial-gradient(ellipse at center, rgba(24,1,166,0.078), rgba(24,1,166,0.03) 45%, transparent 70%);
-    filter: blur(64px);
+    position: absolute; top: -16%; right: -12%; width: 1150px; height: 880px; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(24,1,166,0.095), rgba(24,1,166,0.04) 45%, transparent 70%);
+    filter: blur(68px);
     will-change: transform;
   }
 
@@ -105,14 +105,13 @@
   @keyframes glow-pulse { 0%, 100% { text-shadow: 0 0 12px rgba(161,235,67,0.12); } 50% { text-shadow: 0 0 22px rgba(161,235,67,0.32); } }
   @keyframes arrow-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
   @media (prefers-reduced-motion: reduce) {
-    .hero-name, .hero-headline-2, .hero-link { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .hero-headline-2, .hero-link { animation: none !important; opacity: 1 !important; transform: none !important; }
     .hero-headline-2 .accent-line, .hero-link .arrow { animation: none !important; }
     .hero-glow, .hero-lens { transform: none !important; }
   }
 
   .hero-plain-text { position: relative; z-index: 1; max-width: 640px; }
-  .hero-name { font-size: 14px; font-weight: 600; letter-spacing: 0.02em; color: var(--ink-2); margin: 0 0 22px; opacity: 0; transform: translateY(10px); animation: rise 0.6s var(--ease) 0.05s forwards; }
-  .hero-headline-2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.4rem, 5.6vw, 4rem); line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 26px; opacity: 0; transform: translateY(16px); animation: rise 0.8s var(--ease) 0.28s forwards; }
+  .hero-headline-2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 6.3vw, 4.5rem); line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 26px; opacity: 0; transform: translateY(16px); animation: rise 0.8s var(--ease) 0.28s forwards; }
   .hero-headline-2 .accent-line { display: block; color: var(--accent); animation: rise 0.8s var(--ease) 0.28s forwards, glow-pulse 4.5s ease-in-out 1.2s infinite; }
   .hero-link { font-size: 14px; font-weight: 500; border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; opacity: 0; transform: translateY(10px); animation: rise 0.7s var(--ease) 0.42s forwards; }
   .hero-link:hover { border-color: var(--accent); color: var(--accent); }
