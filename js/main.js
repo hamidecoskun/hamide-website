@@ -65,8 +65,8 @@
                     (sizes.small && (sizes.small.mediaUrl || sizes.small.url)) || '';
         return {
           url: o.permalink || o.link || o.url || igProfile,
-          thumb: o.thumbnailUrl || o.thumbnail || sized || o.mediaUrl || o.media_url || o.image || o.thumb || '',
-          caption: o.caption || o.title || o.text || '',
+          thumb: sized || o.thumbnailUrl || o.thumbnail || o.image || o.thumb || o.mediaUrl || o.media_url || '',
+          caption: o.prunedCaption || o.caption || o.title || o.text || '',
           date: (o.timestamp || o.date || o.publishedAt || '').toString().slice(0, 10)
         };
       }).filter(function (o) { return o.url; });
