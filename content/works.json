@@ -1,10 +1,12 @@
 {
   "_nasil": "Yeni bir is eklemek icin works listesinin basina bir satir ekle. series: field-notes | the-other-map | built-here | qa | (bos). url: YouTube ya da Instagram linki. thumb: assets/images altindaki gorsel; bos birakilirsa ve url bir Instagram gonderisiyse gorsel Instagram beslemesinden otomatik alinir. hub: false yazilirsa 'Son videolar' bolumunde cikmaz, sadece kendi serisinde gorunur.",
   "instagram": {
-    "_nasil": "feedUrl dolduruldugunda Instagram gonderileri otomatik gelir. Bos ise asagidaki posts listesi kullanilir. Ikisi de bossa bolum sitede gorunmez.",
+    "_nasil": "feedUrls listesine besleme adresi ekle. Birden fazla hesap eklenebilir, gonderiler tarihe gore birlesir ve her karta hesap adi yazilir. Liste de posts da bossa bolum sitede gorunmez.",
     "profil": "https://www.instagram.com/hamide.cskn/",
-    "feedUrl": "https://feeds.behold.so/HAOfady6XZPYmHDaDN7L",
-    "posts": []
+    "posts": [],
+    "feedUrls": [
+      "https://feeds.behold.so/HAOfady6XZPYmHDaDN7L"
+    ]
   },
   "series": [
     {

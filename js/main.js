@@ -63,6 +63,7 @@
     function byNewest(a, b) { return new Date(b.date) - new Date(a.date); }
 
     var igPosts = [];
+    var igMultiUser = false;
     var igProfile = 'https://www.instagram.com/hamide.cskn/';
 
     function igNormalize(raw) {
@@ -84,10 +85,12 @@
     function igTile(p) {
       var cap = p.caption.replace(/\s+/g, ' ').trim();
       if (cap.length > 96) cap = cap.slice(0, 96).replace(/\S*$/, '') + '…';
+      var meta = p.date ? formatHubDate(p.date) : '';
+      if (igMultiUser && p.user) meta = '@' + p.user + (meta ? ' · ' + meta : '');
       return '<a class="ig-tile" href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer" aria-label="Instagram gönderisi">' +
         '<div class="ig-thumb"' + (p.thumb ? ' style="background-image:url(' + esc(p.thumb) + ')"' : ' data-empty="1"') + '></div>' +
         (cap ? '<p class="ig-cap">' + esc(cap) + '</p>' : '') +
-        (p.date ? '<p class="hub-date">' + formatHubDate(p.date) + '</p>' : '') +
+        (meta ? '<p class="hub-date">' + esc(meta) + '</p>' : '') +
       '</a>';
     }
 
@@ -97,6 +100,9 @@
       if (!sec || !grid) return;
       if (!igPosts.length) { sec.style.display = 'none'; return; }
       sec.style.display = '';
+      var users = {};
+      igPosts.forEach(function (p) { if (p.user) users[p.user] = 1; });
+      igMultiUser = Object.keys(users).length > 1;
       grid.innerHTML = igPosts.slice(0, 8).map(igTile).join('');
     }
 
@@ -139,14 +145,27 @@
         if (link) link.href = igProfile;
         igPosts = igNormalize(ig.posts || []);
         renderInstagram();
-        if (ig.feedUrl) {
-          fetch(ig.feedUrl, { cache: 'no-cache' })
-            .then(function (r) { return r.json(); })
-            .then(function (feed) {
-              var live = igNormalize(feed);
-              if (live.length) { igPosts = live; renderInstagram(); renderHub(); }
-            })
-            .catch(function () {});
+        var feedUrls = ig.feedUrls || (ig.feedUrl ? [ig.feedUrl] : []);
+        if (feedUrls.length) {
+          Promise.all(feedUrls.map(function (u) {
+            return fetch(u, { cache: 'no-cache' })
+              .then(function (r) { return r.json(); })
+              .catch(function () { return null; });
+          })).then(function (feeds) {
+            var all = [], seen = {};
+            feeds.forEach(function (f) {
+              if (!f) return;
+              var user = f.username || '';
+              igNormalize(f).forEach(function (q) {
+                if (seen[q.url]) return;
+                seen[q.url] = 1;
+                q.user = user;
+                all.push(q);
+              });
+            });
+            all.sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+            if (all.length) { igPosts = all; renderInstagram(); renderHub(); }
+          });
         }
       })
       .catch(function () {});
