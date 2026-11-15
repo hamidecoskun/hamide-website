@@ -23,15 +23,11 @@
       });
     });
 
-    /* content hub: pinned videos first, then the rest in reverse-chronological order */
-    var hubVideos = [
-      { id: 'Ssd0JCHDUVg', title: 'Kamera Önünde Rahat Konuşmanın Gerçek Sırrı | Dijital Muhabirin Sistemi', date: '2026-05-31', pinned: true, thumb: 'assets/images/hub-dijital-muhabirin-sistemi.jpg' },
-      { id: 'lyptBhqZGro', title: 'GMC Summit Day 1 | Müslüman Medyasının Geleceği, Yapay Zeka ve İçerik Üretimi', date: '2026-07-11', pinned: false, thumb: 'assets/images/hub-gmc-summit.jpg' },
-      { id: 'rQ5nJ5Fu5xo', title: 'Bu köy gerçek mi? Sizi Avusturya’nın rüya köyü Irschen’e götürüyorum', date: '2026-07-08', pinned: false, thumb: 'assets/images/hub-avusturya-koyu-kisa.jpg' },
-      { id: 'cDVYzKQLVXs', title: 'AVUSTURYA VLOG: Alplerde Saklı Bir Avusturya Köyüne Gittim', date: '2026-07-07', pinned: false, thumb: 'assets/images/hub-avusturya-vlog.jpg' },
-      { id: 'Gyr0-eak_vc', title: 'Muhabirler Kamera Karşısında Nasıl Bu Kadar Rahat?', date: '2026-06-01', pinned: false, thumb: 'assets/images/hub-muhabirler-kamera.jpg' },
-      { id: 'Rek4wUaeNT4', title: 'Anadolu Ajansı Yönetim Kurulu Başkanı ve Genel Müdürü Sayın Serdar Karagöz özel röportajı', date: '2026-01-06', pinned: false, thumb: 'assets/images/hub-serdar-karagoz-roportaj.jpg' }
-    ];
+    /* content hub: works come from content/works.json — pinned first, then newest first */
+    var hubVideos = [];
+    var hubSeries = [];
+
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
 
     function formatHubDate(iso) {
       var d = new Date(iso + 'T00:00:00');
@@ -40,28 +36,55 @@
       return dd + '.' + mm + '.' + d.getFullYear();
     }
 
+    function tile(v) {
+      var pinLabel = currentLang === 'tr' ? 'Sabitlendi' : 'Pinned';
+      return '<a class="hub-tile" href="' + esc(v.url) + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(v.title) + '">' +
+        '<div class="hub-thumb"' + (v.thumb ? ' style="background-image:url(' + esc(v.thumb) + ')"' : '') + '>' +
+          (v.pinned ? '<span class="hub-pin">' + pinLabel + '</span>' : '') +
+          '<span class="play-icon" aria-hidden="true"></span>' +
+        '</div>' +
+        '<div class="hub-body">' +
+          '<p class="hub-title">' + esc(v.title) + '</p>' +
+          '<p class="hub-date">' + formatHubDate(v.date) + '</p>' +
+        '</div>' +
+      '</a>';
+    }
+
+    function byNewest(a, b) { return new Date(b.date) - new Date(a.date); }
+
     function renderHub() {
       var grid = document.getElementById('hubGrid');
-      if (!grid) return;
-      var sorted = hubVideos.slice().sort(function (a, b) {
-        if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-        return new Date(b.date) - new Date(a.date);
-      });
-      var pinLabel = currentLang === 'tr' ? 'Sabitlendi' : 'Pinned';
-      grid.innerHTML = sorted.map(function (v) {
-        return '<a class="hub-tile" href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener noreferrer" aria-label="' + v.title.replace(/"/g, '&quot;') + ' videosunu YouTube\'da izle">' +
-          '<div class="hub-thumb" style="background-image:url(' + v.thumb + ')">' +
-            (v.pinned ? '<span class="hub-pin">' + pinLabel + '</span>' : '') +
-            '<span class="play-icon" aria-hidden="true"></span>' +
-          '</div>' +
-          '<div class="hub-body">' +
-            '<p class="hub-title">' + v.title + '</p>' +
-            '<p class="hub-date">' + formatHubDate(v.date) + '</p>' +
-          '</div>' +
-        '</a>';
-      }).join('');
+      if (grid) {
+        var sorted = hubVideos.slice().sort(function (a, b) {
+          if (!!a.pinned !== !!b.pinned) return a.pinned ? -1 : 1;
+          return byNewest(a, b);
+        });
+        grid.innerHTML = sorted.map(tile).join('');
+      }
+      var list = document.getElementById('seriesList');
+      if (list) {
+        var soon = currentLang === 'tr' ? 'Yakında' : 'Coming soon';
+        list.innerHTML = hubSeries.map(function (s) {
+          var items = hubVideos.filter(function (v) { return v.series === s.id; }).sort(byNewest);
+          return '<div class="series-row">' +
+            '<div class="series-head">' +
+              '<h3 class="series-name">' + esc(s.name) + '</h3>' +
+              '<p class="series-desc">' + esc(currentLang === 'tr' ? s.tr : s.en) + '</p>' +
+            '</div>' +
+            (items.length ? '<div class="hub-grid">' + items.map(tile).join('') + '</div>' : '<p class="series-soon">' + soon + '</p>') +
+          '</div>';
+        }).join('');
+      }
     }
-    renderHub();
+
+    fetch('content/works.json', { cache: 'no-cache' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        hubVideos = data.works || [];
+        hubSeries = data.series || [];
+        renderHub();
+      })
+      .catch(function () {});
 
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var items = document.querySelectorAll('.reveal');
