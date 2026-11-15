@@ -1,17 +1,85 @@
 {
   "_nasil": "Yeni bir is eklemek icin works listesinin basina bir satir ekle. series: field-notes | the-other-map | built-here | qa | (bos). url: YouTube ya da Instagram linki. thumb: assets/images altindaki gorsel.",
+  "instagram": {
+    "_nasil": "feedUrl dolduruldugunda Instagram gonderileri otomatik gelir. Bos ise asagidaki posts listesi kullanilir. Ikisi de bossa bolum sitede gorunmez.",
+    "profil": "https://www.instagram.com/hamide.cskn/",
+    "feedUrl": "",
+    "posts": []
+  },
   "series": [
-    { "id": "field-notes", "name": "Field Notes", "en": "Short notes from the field: a technology I saw, a place I visited, a moment worth keeping.", "tr": "Sahadan kısa notlar: Gördüğüm bir teknoloji, gezdiğim bir yer, yaşadığım bir an." },
-    { "id": "the-other-map", "name": "The Other Map", "en": "A story everyone knows, told from another angle. But there’s another map to this story.", "tr": "Herkesin bildiği bir hikaye, başka bir açıdan. But there’s another map to this story." },
-    { "id": "built-here", "name": "Built Here", "en": "Technology made in Türkiye, and the people who build it.", "tr": "Türkiye'de üretilen teknoloji, ürünler ve onları yapan insanlar." },
-    { "id": "qa", "name": "Q&A", "en": "Questions for experts and founders, and answers to yours.", "tr": "Uzmanlara ve kuruculara sorular, sizden gelenlere cevaplar." }
+    {
+      "id": "field-notes",
+      "name": "Field Notes",
+      "en": "Short notes from the field: a technology I saw, a place I visited, a moment worth keeping.",
+      "tr": "Sahadan kısa notlar: Gördüğüm bir teknoloji, gezdiğim bir yer, yaşadığım bir an."
+    },
+    {
+      "id": "the-other-map",
+      "name": "The Other Map",
+      "en": "A story everyone knows, told from another angle. But there’s another map to this story.",
+      "tr": "Herkesin bildiği bir hikaye, başka bir açıdan. But there’s another map to this story."
+    },
+    {
+      "id": "built-here",
+      "name": "Built Here",
+      "en": "Technology made in Türkiye, and the people who build it.",
+      "tr": "Türkiye'de üretilen teknoloji, ürünler ve onları yapan insanlar."
+    },
+    {
+      "id": "qa",
+      "name": "Q&A",
+      "en": "Questions for experts and founders, and answers to yours.",
+      "tr": "Uzmanlara ve kuruculara sorular, sizden gelenlere cevaplar."
+    }
   ],
   "works": [
-    { "url": "https://www.youtube.com/watch?v=Ssd0JCHDUVg", "title": "Kamera Önünde Rahat Konuşmanın Gerçek Sırrı | Dijital Muhabirin Sistemi", "date": "2026-05-31", "pinned": true, "series": "", "thumb": "assets/images/hub-dijital-muhabirin-sistemi.jpg" },
-    { "url": "https://www.youtube.com/watch?v=lyptBhqZGro", "title": "GMC Summit Day 1 | Müslüman Medyasının Geleceği, Yapay Zeka ve İçerik Üretimi", "date": "2026-07-11", "pinned": false, "series": "", "thumb": "assets/images/hub-gmc-summit.jpg" },
-    { "url": "https://www.youtube.com/watch?v=rQ5nJ5Fu5xo", "title": "Bu köy gerçek mi? Sizi Avusturya’nın rüya köyü Irschen’e götürüyorum", "date": "2026-07-08", "pinned": false, "series": "", "thumb": "assets/images/hub-avusturya-koyu-kisa.jpg" },
-    { "url": "https://www.youtube.com/watch?v=cDVYzKQLVXs", "title": "AVUSTURYA VLOG: Alplerde Saklı Bir Avusturya Köyüne Gittim", "date": "2026-07-07", "pinned": false, "series": "", "thumb": "assets/images/hub-avusturya-vlog.jpg" },
-    { "url": "https://www.youtube.com/watch?v=Gyr0-eak_vc", "title": "Muhabirler Kamera Karşısında Nasıl Bu Kadar Rahat?", "date": "2026-06-01", "pinned": false, "series": "", "thumb": "assets/images/hub-muhabirler-kamera.jpg" },
-    { "url": "https://www.youtube.com/watch?v=Rek4wUaeNT4", "title": "Anadolu Ajansı Yönetim Kurulu Başkanı ve Genel Müdürü Sayın Serdar Karagöz özel röportajı", "date": "2026-01-06", "pinned": false, "series": "", "thumb": "assets/images/hub-serdar-karagoz-roportaj.jpg" }
+    {
+      "url": "https://www.youtube.com/watch?v=Ssd0JCHDUVg",
+      "title": "Kamera Önünde Rahat Konuşmanın Gerçek Sırrı | Dijital Muhabirin Sistemi",
+      "date": "2026-05-31",
+      "pinned": true,
+      "series": "",
+      "thumb": "assets/images/hub-dijital-muhabirin-sistemi.jpg"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=lyptBhqZGro",
+      "title": "GMC Summit Day 1 | Müslüman Medyasının Geleceği, Yapay Zeka ve İçerik Üretimi",
+      "date": "2026-07-11",
+      "pinned": false,
+      "series": "",
+      "thumb": "assets/images/hub-gmc-summit.jpg"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=rQ5nJ5Fu5xo",
+      "title": "Bu köy gerçek mi? Sizi Avusturya’nın rüya köyü Irschen’e götürüyorum",
+      "date": "2026-07-08",
+      "pinned": false,
+      "series": "",
+      "thumb": "assets/images/hub-avusturya-koyu-kisa.jpg"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=cDVYzKQLVXs",
+      "title": "AVUSTURYA VLOG: Alplerde Saklı Bir Avusturya Köyüne Gittim",
+      "date": "2026-07-07",
+      "pinned": false,
+      "series": "",
+      "thumb": "assets/images/hub-avusturya-vlog.jpg"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=Gyr0-eak_vc",
+      "title": "Muhabirler Kamera Karşısında Nasıl Bu Kadar Rahat?",
+      "date": "2026-06-01",
+      "pinned": false,
+      "series": "",
+      "thumb": "assets/images/hub-muhabirler-kamera.jpg"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=Rek4wUaeNT4",
+      "title": "Anadolu Ajansı Yönetim Kurulu Başkanı ve Genel Müdürü Sayın Serdar Karagöz özel röportajı",
+      "date": "2026-01-06",
+      "pinned": false,
+      "series": "",
+      "thumb": "assets/images/hub-serdar-karagoz-roportaj.jpg"
+    }
   ]
 }

@@ -20,6 +20,7 @@
           el.innerHTML = el.getAttribute('data-' + lang);
         });
         renderHub();
+        renderInstagram();
       });
     });
 
@@ -52,6 +53,45 @@
 
     function byNewest(a, b) { return new Date(b.date) - new Date(a.date); }
 
+    var igPosts = [];
+    var igProfile = 'https://www.instagram.com/hamide.cskn/';
+
+    function igNormalize(raw) {
+      var list = Array.isArray(raw) ? raw : (raw && (raw.posts || raw.data || raw.items)) || [];
+      if (!Array.isArray(list)) list = [];
+      return list.map(function (o) {
+        var sizes = o.sizes || {};
+        var sized = (sizes.medium && (sizes.medium.mediaUrl || sizes.medium.url)) ||
+                    (sizes.small && (sizes.small.mediaUrl || sizes.small.url)) || '';
+        return {
+          url: o.permalink || o.link || o.url || igProfile,
+          thumb: o.thumbnailUrl || o.thumbnail || sized || o.mediaUrl || o.media_url || o.image || o.thumb || '',
+          caption: o.caption || o.title || o.text || '',
+          date: (o.timestamp || o.date || o.publishedAt || '').toString().slice(0, 10)
+        };
+      }).filter(function (o) { return o.url; });
+    }
+
+    function igTile(p) {
+      var cap = p.caption.replace(/\s+/g, ' ').trim();
+      if (cap.length > 96) cap = cap.slice(0, 96).replace(/\S*$/, '') + '…';
+      return '<a class="ig-tile" href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer" aria-label="Instagram gönderisi">' +
+        '<div class="ig-thumb"' + (p.thumb ? ' style="background-image:url(' + esc(p.thumb) + ')"' : ' data-empty="1"') + '></div>' +
+        (cap ? '<p class="ig-cap">' + esc(cap) + '</p>' : '') +
+        (p.date ? '<p class="hub-date">' + formatHubDate(p.date) + '</p>' : '') +
+      '</a>';
+    }
+
+    function renderInstagram() {
+      var sec = document.getElementById('instagram');
+      var grid = document.getElementById('igGrid');
+      if (!sec || !grid) return;
+      if (!igPosts.length) { sec.style.display = 'none'; return; }
+      sec.style.display = '';
+      grid.innerHTML = igPosts.slice(0, 8).map(igTile).join('');
+    }
+
+
     function renderHub() {
       var grid = document.getElementById('hubGrid');
       if (grid) {
@@ -83,6 +123,22 @@
         hubVideos = data.works || [];
         hubSeries = data.series || [];
         renderHub();
+
+        var ig = data.instagram || {};
+        if (ig.profil) igProfile = ig.profil;
+        var link = document.getElementById('igProfileLink');
+        if (link) link.href = igProfile;
+        igPosts = igNormalize(ig.posts || []);
+        renderInstagram();
+        if (ig.feedUrl) {
+          fetch(ig.feedUrl, { cache: 'no-cache' })
+            .then(function (r) { return r.json(); })
+            .then(function (feed) {
+              var live = igNormalize(feed);
+              if (live.length) { igPosts = live; renderInstagram(); }
+            })
+            .catch(function () {});
+        }
       })
       .catch(function () {});
 
