@@ -1,5 +1,5 @@
 {
-  "_nasil": "Yeni bir is eklemek icin works listesinin basina bir satir ekle. series: field-notes | the-other-map | built-here | qa | (bos). url: YouTube ya da Instagram linki. thumb: assets/images altindaki gorsel.",
+  "_nasil": "Yeni bir is eklemek icin works listesinin basina bir satir ekle. series: field-notes | the-other-map | built-here | qa | (bos). url: YouTube ya da Instagram linki. thumb: assets/images altindaki gorsel; bos birakilirsa ve url bir Instagram gonderisiyse gorsel Instagram beslemesinden otomatik alinir. hub: false yazilirsa 'Son videolar' bolumunde cikmaz, sadece kendi serisinde gorunur.",
   "instagram": {
     "_nasil": "feedUrl dolduruldugunda Instagram gonderileri otomatik gelir. Bos ise asagidaki posts listesi kullanilir. Ikisi de bossa bolum sitede gorunmez.",
     "profil": "https://www.instagram.com/hamide.cskn/",
@@ -33,6 +33,15 @@
     }
   ],
   "works": [
+    {
+      "url": "https://www.instagram.com/reel/Dfm5IMqCyW-/",
+      "title": "Bölüm 01 · Sudoku'yu sen mi seçtin, yoksa algoritma mı?",
+      "date": "2026-11-11",
+      "pinned": false,
+      "series": "the-other-map",
+      "hub": false,
+      "thumb": ""
+    },
     {
       "url": "https://www.youtube.com/watch?v=Ssd0JCHDUVg",
       "title": "Kamera Önünde Rahat Konuşmanın Gerçek Sırrı | Dijital Muhabirin Sistemi",

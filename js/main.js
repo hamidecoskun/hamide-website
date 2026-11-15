@@ -37,10 +37,19 @@
       return dd + '.' + mm + '.' + d.getFullYear();
     }
 
+    function resolveThumb(v) {
+      if (v.thumb) return v.thumb;
+      for (var i = 0; i < igPosts.length; i++) {
+        if (igPosts[i].url === v.url) return igPosts[i].thumb;
+      }
+      return '';
+    }
+
     function tile(v) {
       var pinLabel = currentLang === 'tr' ? 'Sabitlendi' : 'Pinned';
+      var th = resolveThumb(v);
       return '<a class="hub-tile" href="' + esc(v.url) + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(v.title) + '">' +
-        '<div class="hub-thumb"' + (v.thumb ? ' style="background-image:url(' + esc(v.thumb) + ')"' : '') + '>' +
+        '<div class="hub-thumb"' + (th ? ' style="background-image:url(' + esc(th) + ')"' : '') + '>' +
           (v.pinned ? '<span class="hub-pin">' + pinLabel + '</span>' : '') +
           '<span class="play-icon" aria-hidden="true"></span>' +
         '</div>' +
@@ -95,7 +104,7 @@
     function renderHub() {
       var grid = document.getElementById('hubGrid');
       if (grid) {
-        var sorted = hubVideos.slice().sort(function (a, b) {
+        var sorted = hubVideos.filter(function (v) { return v.hub !== false; }).sort(function (a, b) {
           if (!!a.pinned !== !!b.pinned) return a.pinned ? -1 : 1;
           return byNewest(a, b);
         });
@@ -135,7 +144,7 @@
             .then(function (r) { return r.json(); })
             .then(function (feed) {
               var live = igNormalize(feed);
-              if (live.length) { igPosts = live; renderInstagram(); }
+              if (live.length) { igPosts = live; renderInstagram(); renderHub(); }
             })
             .catch(function () {});
         }
